@@ -132,14 +132,21 @@ def __log_file(logger_instance, timestamp, message, header):
             file.close()
         except Exception as e:
             current_toggle_file_logging = logger_instance["toggle_file_logging"]
+            current_toggle_db_logging = logger_instance["toggle_db_logging"]
             set_toggle_file_logging(False)
+            set_toggle_db_logging(False)
             fatal("An error occured... %s" % str(e))
-            set_toggle_file_logging(current_toggle_file_logging)
+            set_toggle_file_logging(logger_instance, current_toggle_file_logging)
+            set_toggle_db_logging(logger_instance, current_toggle_db_logging)
     else:
         current_toggle_file_logging = logger_instance["toggle_file_logging"]
+        current_toggle_db_logging = logger_instance["toggle_db_logging"]
         set_toggle_file_logging(False)
+        set_toggle_db_logging(False)
         fatal("File Path for Logger is Not Valid!")
-        set_toggle_file_logging(current_toggle_file_logging)
+        set_toggle_file_logging(logger_instance, current_toggle_file_logging)
+        set_toggle_db_logging(logger_instance, current_toggle_db_logging)
+
 
 def __log_db(logger_instance, timestamp, message, header):
     if logger_instance["conn"] is not None and logger_instance["cursor"] is not None:
